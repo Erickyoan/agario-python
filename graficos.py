@@ -4,13 +4,18 @@ from prototype.factory import circle_creator
 from iterator.agregado import agregate
 from iterator.iterador import iterator
   
+#RGB
+
 NEGRO = (0, 0, 0)
 ROJO = (255, 0, 0)
 CAFE = (90, 50, 15)
 BLANCO =(255,255,255)
+AMARILLO=(255,255,0)
+
 
 # score
 score=0
+score2=0
 
 cantidad_circulos = 2000
 velocidad=2
@@ -36,8 +41,10 @@ ye= random.randrange(1000)
 
 posicionxe = random.randrange(1000)
 posicionye = random.randrange(1000)
-radio_circuloe= 10
+radio_circuloe= 8
 
+
+#jugador
 posicionx = random.randrange(1000)
 posiciony = random.randrange(1000)
 radio_circulo = 10
@@ -63,11 +70,16 @@ while not Terminar:
         posicionx = posicionx +velocidad
         
     if y < posiciony and y < 1000:
-        posiciony = posiciony - velocidad
+        posiciony = posiciony - velocidad +1
     else:
-        posiciony = posiciony + velocidad
+        posiciony = posiciony + velocidad+1
+    
+    
+    
     
     #---Movimiento enemy
+    
+    
     
     if xe < posicionxe and xe < 1000:
         posicionxe = posicionxe -velocidad
@@ -75,13 +87,13 @@ while not Terminar:
         posicionxe = posicionxe +velocidad
         
     if ye < posicionye and ye < 1000:
-        posicionye = posicionye - velocidad
+        posicionye = posicionye -velocidad
     else:
-        posicionye = posicionye + velocidad
+        posicionye = posicionye +velocidad
         
     
    
-        
+    #CONFIGURACION DE SCORE FUENTE    
     scoreText=pygame.font.Font(None, 102)
     
     
@@ -106,6 +118,9 @@ while not Terminar:
             xre = abs(x1 - posicionxe)
             xye = abs(y1 - posicionye)
             
+            compararx=abs(posicionx - posicionxe )
+            comparary=abs(posiciony - posicionye )
+            
             if  xr <= radio_circulo and xy <= radio_circulo:
                  circle.set_position(random.randrange(800),random.randrange(600))
                  radio_circulo = radio_circulo + 0.1
@@ -117,6 +132,22 @@ while not Terminar:
             if  xre <= radio_circuloe and xye <= radio_circuloe:
                  circle.set_position(random.randrange(800),random.randrange(600))
                  radio_circuloe = radio_circuloe + 0.1
+                 
+            
+            if compararx <=radio_circulo and comparary <=radio_circulo:
+                
+                radio_circulo=20
+                radio_circuloe=0
+                posicionxe=500
+                posicionye=500
+            
+            # if compararx >=radio_circulo and comparary >=radio_circulo:
+                
+            #     radio_circulo=20
+            #     radio_circuloe=0
+            #     posicionxe=500
+            #     posicionye=500
+            
             
             # if  xre <=  and xye <= radio_circuloe:
             #      circle.set_position(random.randrange(800),random.randrange(600))
@@ -135,12 +166,17 @@ while not Terminar:
     
     # Dibujo del Score
     Pantalla.blit(scoreText.render(str(score), True, BLANCO),(5,5))
+    Pantalla.blit(scoreText.render(str(score2), True, BLANCO),(900,5))
     
+    
+    #DIBUJO PLAYER
     pygame.draw.circle(Pantalla, ROJO, [posicionx, posiciony], int(radio_circulo))
-    pygame.draw.circle(Pantalla,CAFE,[posicionxe, posicionye], int(radio_circuloe))
+    #DIBUJO IA
+    pygame.draw.circle(Pantalla,AMARILLO,[posicionxe, posicionye], int(radio_circuloe))
     
     
     score=(int(radio_circulo))
+    score2=(int(radio_circuloe))
     
         
     #--Todos los dibujos van antes de esta línea
